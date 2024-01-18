@@ -1,0 +1,149 @@
+version: api.keploy.io/v1beta1
+kind: SQL
+name: mock-0
+spec:
+    metadata:
+        operation: HANDSHAKE_RESPONSE
+        responseOperation: MySQLOK
+        type: config
+    requests:
+        - header:
+            packet_length: 134
+            packet_number: 1
+            packet_type: HANDSHAKE_RESPONSE
+          message:
+            capability_flags: 12252111
+            character_set: 224
+            reserved: 23
+            username: user
+            auth_data: 4NJQYaoybyk/UZs7tGeW/geAZ7A=
+            database: mydb
+            auth_plugin_name: mysql_native_password
+            connect_attributes: {_client_name: Node-MySQL-2, _client_version: 3.7.1}
+    responses:
+        - header:
+            packet_length: 74
+            packet_type: MySQLHandshakeV10
+          message:
+            protocol_version: 10
+            server_version: 5.7.44
+            connection_id: 3
+            auth_plugin_data: Azp1SmRZRWZEaWgXZg4ZcA8YWSAA
+            capability_flags: 3254779903
+            character_set: 8
+            status_flags: 2
+            auth_plugin_name: mysql_native_password
+        - header:
+            packet_length: 16
+            packet_number: 2
+            packet_type: MySQLOK
+          message:
+            status_flags: 16386
+            info: "\0\a\x01\x05\x04mydb"
+    created: 1705578133
+---
+version: api.keploy.io/v1beta1
+kind: SQL
+name: mock-1
+spec:
+    metadata:
+        operation: MySQLQuery
+        responseOperation: MySQLOK
+        type: mocks
+    requests:
+        - header:
+            packet_length: 235
+            packet_type: MySQLQuery
+          message:
+            command: 3
+            query: "\n        CREATE TABLE IF NOT EXISTS items (\n            id INT AUTO_INCREMENT PRIMARY KEY,\n            name VARCHAR(255) NOT NULL,\n            description TEXT,\n            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        )\n    "
+    responses:
+        - header:
+            packet_length: 7
+            packet_number: 1
+            packet_type: MySQLOK
+          message:
+            status_flags: 2
+            warnings: 1
+    created: 1705578133
+---
+version: api.keploy.io/v1beta1
+kind: SQL
+name: mock-2
+spec:
+    metadata:
+        operation: MySQLQuery
+        responseOperation: MySQLOK
+        type: mocks
+    requests:
+        - header:
+            packet_length: 73
+            packet_type: MySQLQuery
+          message:
+            command: 3
+            query: INSERT INTO items SET `name` = '<name>', `description` = '<description>'
+    responses:
+        - header:
+            packet_length: 7
+            packet_number: 1
+            packet_type: MySQLOK
+          message:
+            affected_rows: 1
+            last_insert_id: 2
+            status_flags: 2
+    created: 1705578158
+---
+version: api.keploy.io/v1beta1
+kind: SQL
+name: mock-3
+spec:
+    metadata:
+        operation: MySQLQuery
+        responseOperation: MySQLOK
+        type: mocks
+    requests:
+        - header:
+            packet_length: 67
+            packet_type: MySQLQuery
+          message:
+            command: 3
+            query: INSERT INTO items SET `name` = '<name>', `description` = 'hhgghhg'
+    responses:
+        - header:
+            packet_length: 7
+            packet_number: 1
+            packet_type: MySQLOK
+          message:
+            affected_rows: 1
+            last_insert_id: 3
+            status_flags: 2
+    created: 1705578174
+---
+version: api.keploy.io/v1beta1
+kind: SQL
+name: mock-4
+spec:
+    metadata:
+        operation: MySQLQuery
+        responseOperation: RESULT_SET_PACKET
+        type: mocks
+    requests:
+        - header:
+            packet_length: 20
+            packet_type: MySQLQuery
+          message:
+            command: 3
+            query: SELECT * FROM items
+    responses:
+        - header:
+            packet_length: 1
+            packet_number: 1
+            packet_type: RESULT_SET_PACKET
+          message:
+            columns: [{packet_header: {packet_length: 40, packet_sequence_id: 2}, catalog: def, schema: mydb, table: items, org_table: items, name: id, org_name: id, next_length: 0, character_set: 63, column_length: 11, column_type: 3, flags: 16899, decimals: 0, string: ""}, {packet_header: {packet_length: 44, packet_sequence_id: 3}, catalog: def, schema: mydb, table: items, org_table: items, name: name, org_name: name, next_length: 0, character_set: 224, column_length: 1020, column_type: 253, flags: 4097, decimals: 0, string: ""}, {packet_header: {packet_length: 58, packet_sequence_id: 4}, catalog: def, schema: mydb, table: items, org_table: items, name: description, org_name: description, next_length: 0, character_set: 224, column_length: 262140, column_type: 252, flags: 16, decimals: 0, string: ""}, {packet_header: {packet_length: 56, packet_sequence_id: 5}, catalog: def, schema: mydb, table: items, org_table: items, name: created_at, org_name: created_at, next_length: 0, character_set: 63, column_length: 19, column_type: 7, flags: 1153, decimals: 0, string: ""}]
+            rows: [{header: {packet_length: 43, sequence_id: 7}, row_column_definition: [{type: 3, name: id, value: "1"}, {type: 253, name: name, value: <name>}, {type: 252, name: description, value: <description>}, {type: 7, name: created_at, value: '12338-50-52 45:48:49'}]}, {header: {packet_length: 43, sequence_id: 8}, row_column_definition: [{type: 3, name: id, value: "2"}, {type: 253, name: name, value: <name>}, {type: 252, name: description, value: <description>}, {type: 7, name: created_at, value: '12338-50-52 45:48:49'}]}, {header: {packet_length: 37, sequence_id: 9}, row_column_definition: [{type: 3, name: id, value: "3"}, {type: 253, name: name, value: <name>}, {type: 252, name: description, value: hhgghhg}, {type: 7, name: created_at, value: '12338-50-52 45:48:49'}]}]
+            eofPresent: true
+            eofPresentFinal: true
+            optionalEOFBytes: BQAACv4AACIA
+            eofAfterColumns: BQAABv4AACIA
+    created: 1705578185

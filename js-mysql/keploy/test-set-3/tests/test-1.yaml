@@ -1,0 +1,49 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-1
+spec:
+    metadata: {}
+    req:
+        method: POST
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/items
+        header:
+            Accept: '*/*'
+            Content-Length: "50"
+            Content-Type: application/json
+            Host: localhost:3000
+            User-Agent: curl/8.2.1
+        body: '{"name": "<name>", "description": "<description>"}'
+        body_type: ""
+        timestamp: 2024-01-18T17:12:38.528501711+05:30
+        host: ""
+    resp:
+        status_code: 201
+        header:
+            Connection: keep-alive
+            Content-Length: "21"
+            Content-Type: text/html; charset=utf-8
+            Date: Thu, 18 Jan 2024 11:42:38 GMT
+            Etag: W/"15-C5IeyXgQaytvF7bNZ6kmG1WBkqQ"
+            Keep-Alive: timeout=5
+            X-Powered-By: Express
+        body: 'Item added with ID: 2'
+        body_type: ""
+        status_message: ""
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-01-18T17:12:38.589355858+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1705578160
+curl: |-
+    curl --request POST \
+      --url http://localhost:3000/items \
+      --header 'Content-Type: application/json' \
+      --header 'Host: localhost:3000' \
+      --header 'User-Agent: curl/8.2.1' \
+      --header 'Accept: */*' \
+      --data '{"name": "<name>", "description": "<description>"}'

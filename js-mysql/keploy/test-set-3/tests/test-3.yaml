@@ -1,0 +1,46 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-3
+spec:
+    metadata: {}
+    req:
+        method: GET
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:3000/items
+        header:
+            Accept: '*/*'
+            Host: localhost:3000
+            User-Agent: curl/8.2.1
+        body: ""
+        body_type: ""
+        timestamp: 2024-01-18T17:13:05.147351544+05:30
+        host: ""
+    resp:
+        status_code: 200
+        header:
+            Connection: keep-alive
+            Content-Length: "280"
+            Content-Type: application/json; charset=utf-8
+            Date: Thu, 18 Jan 2024 11:43:05 GMT
+            Etag: W/"118-b5063AO2LoSJFfW48Lu01y2FaDU"
+            Keep-Alive: timeout=5
+            X-Powered-By: Express
+        body: '[{"id":1,"name":"<name>","description":"<description>","created_at":"2024-01-18T01:28:13.000Z"},{"id":2,"name":"<name>","description":"<description>","created_at":"2024-01-18T06:12:38.000Z"},{"id":3,"name":"<name>","description":"hhgghhg","created_at":"2024-01-18T06:12:54.000Z"}]'
+        body_type: ""
+        status_message: ""
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-01-18T17:13:05.159739139+05:30
+    objects: []
+    assertions:
+        noise:
+            body.created_at: []
+            header.Date: []
+    created: 1705578187
+curl: |
+    curl --request GET \
+      --url http://localhost:3000/items \
+      --header 'Host: localhost:3000' \
+      --header 'User-Agent: curl/8.2.1' \
+      --header 'Accept: */*' \
